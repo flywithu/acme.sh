@@ -71,7 +71,8 @@ jobs:
 
   MacOS:
     runs-on: macos-latest
-    needs: Docker
+    needs: Windows
+
     env:
       ${{ secrets.TokenName1 }} : ${{ secrets.TokenValue1 }}
       ${{ secrets.TokenName2 }} : ${{ secrets.TokenValue2 }}
@@ -94,7 +95,7 @@ jobs:
 
   Windows:
     runs-on: windows-latest
-    needs: MacOS
+    needs: Docker
     env:
       ${{ secrets.TokenName1 }} : ${{ secrets.TokenValue1 }}
       ${{ secrets.TokenName2 }} : ${{ secrets.TokenValue2 }}
