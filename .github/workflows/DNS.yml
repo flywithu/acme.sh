@@ -69,29 +69,6 @@ jobs:
     - name: Run acmetest
       run: cd ../acmetest && ./rundocker.sh  testall
 
-  MacOS:
-    runs-on: macos-latest
-    needs: Windows
-
-    env:
-      ${{ secrets.TokenName1 }} : ${{ secrets.TokenValue1 }}
-      ${{ secrets.TokenName2 }} : ${{ secrets.TokenValue2 }}
-      TEST_DNS : ${{ secrets.TEST_DNS }}
-      TestingDomain: ${{ secrets.TestingDomain }}
-      
-      TEST_DNS_NO_WILDCARD: ${{ secrets.TEST_DNS_NO_WILDCARD }}
-      TEST_DNS_SLEEP: ${{ secrets.TEST_DNS_SLEEP }}
-      CASE: le_test_dnsapi
-      TEST_LOCAL: 1
-      DEBUG: 1
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install tools
-      run:  brew update && brew install socat;
-    - name: Clone acmetest
-      run: cd .. && git clone https://github.com/acmesh-official/acmetest.git  && cp -r acme.sh acmetest/
-    - name: Run acmetest
-      run: cd ../acmetest && ./letest.sh
 
   Windows:
     runs-on: windows-latest
@@ -120,6 +97,34 @@ jobs:
     - name: Install cygwin additional packages
       run: |
           C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,unzip,git
+
+
+
+  MacOS:
+    runs-on: macos-latest
+    needs: Windows
+
+    env:
+      ${{ secrets.TokenName1 }} : ${{ secrets.TokenValue1 }}
+      ${{ secrets.TokenName2 }} : ${{ secrets.TokenValue2 }}
+      TEST_DNS : ${{ secrets.TEST_DNS }}
+      TestingDomain: ${{ secrets.TestingDomain }}
+      
+      TEST_DNS_NO_WILDCARD: ${{ secrets.TEST_DNS_NO_WILDCARD }}
+      TEST_DNS_SLEEP: ${{ secrets.TEST_DNS_SLEEP }}
+      CASE: le_test_dnsapi
+      TEST_LOCAL: 1
+      DEBUG: 1
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install tools
+      run:  brew update && brew install socat;
+    - name: Clone acmetest
+      run: cd .. && git clone https://github.com/acmesh-official/acmetest.git  && cp -r acme.sh acmetest/
+    - name: Run acmetest
+      run: cd ../acmetest && ./letest.sh
+
+
       shell: cmd
     - name: Set ENV
       run: |
